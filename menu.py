@@ -38,11 +38,13 @@ Notebook Menu
                 print("{0} is not a valid choice".format(choice))
 
     def show_notes(self, notes=None):
-        if not notes:
+        if notes is None:
             notes = self.notebook.notes
-            for note in notes:
-                print("{0}: {1}\n{2}".format(
-                    note.id, note.tags, note.memo))
+        if notes == []:
+            print('No matches found')
+        for note in notes:
+            print("{0}: {1}\n{2}".format(
+                note.id, note.tags, note.memo))
 
     def search_notes(self):
         filter = input("Search for: ")
@@ -59,9 +61,12 @@ Notebook Menu
         memo = input("Enter a memo: ")
         tags = input("Enter tags: ")
         if memo:
-            self.notebook.modify_memo(id, memo)
+            if self.notebook.modify_memo(id, memo):
+                print('There is no note with such id')
+                return
         if tags:
-            self.notebook.modify_tags(id, tags)
+            if self.notebook.modify_tags(id, tags):
+                print('There is no note with such id')
 
     def quit(self):
         print("Thank you for using your notebook today.")
